@@ -166,7 +166,7 @@ def newDownload(urls):#更新的漫画优化使用
                 images = getPcImageUrl(numbersUrl[-1])  # 获得话数的图片下载地址
                 print("漫画图片下载地址:", images)
                 time.sleep(random.uniform(0, 1))
-                i = 0
+                # i = 0
                 for image in images:  # 分别下载话数地址
                     try:
                         downloadPath = manhuaPath + '\\' + str(len(numbersUrl))
@@ -178,12 +178,44 @@ def newDownload(urls):#更新的漫画优化使用
                     except Exception as e :
                         print("404获取图片超时或者异常")
                         print(e.args)
-                    else:
-                        os.rename(downloadPath+'//'+oldName[-1],downloadPath+'//'+str(i)+'.jpg')
-                    i = i + 1
+                    # else:
+                    #     os.rename(downloadPath+'//'+oldName[-1],downloadPath+'//'+str(i)+'.jpg')
+                    # i = i + 1
             except:
                 print("主程序获取链接超时或者异常")
         print("完成时间：", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+
+def newDownload36(urls):#更新的漫画优化使用
+    for myUrl in urls:
+        for myUrl in urls:  # 获得每个漫画首页地址
+            manhuaName = myUrl.split('/')
+            manhuaPath = os.getcwd() + '\\' + manhuaName[-2]
+            try:
+                numbersUrl = getUrl36(myUrl)  # 获得每个漫画的话数地址
+                print("漫画数地址:", numbersUrl)
+                mkdir(manhuaPath, str(len(numbersUrl)))
+                images = getImagesUrl36(numbersUrl[-1])  # 获得话数的图片下载地址
+                print("漫画图片下载地址:", images)
+                time.sleep(random.uniform(0, 1))
+                # i = 0
+                for image in images:  # 分别下载话数地址
+                    try:
+                        downloadPath = manhuaPath + '\\' + str(len(numbersUrl))
+                        # print(image.split('/'))
+                        oldName = image.split('/')
+                        download(image, downloadPath)
+                        # print("old",downloadPath+'\\'+oldName[-1])
+                        # print('new',downloadPath+'\\'+str(i)+'.jpg')
+                    except Exception as e :
+                        print("404获取图片超时或者异常")
+                        print(e.args)
+                    # else:
+                    #     os.rename(downloadPath+'//'+oldName[-1],downloadPath+'//'+str(i)+'.jpg')
+                    # i = i + 1
+            except:
+                print("主程序获取链接超时或者异常")
+        print("完成时间：", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+
 
 
 def inputListUrl():#输入并创建漫画文件夹
@@ -271,7 +303,7 @@ def downloadManhua(*urls):#下载漫画
 
 if __name__ == '__main__':
 
-    upOrDownload = input("请选择更新(2)漫画或者下载(1)漫画 ：\n")
+    upOrDownload = input("请选择下载(1)漫画或者更新gufengdongman(2)36mh(3)漫画：\n")
     upOrDownload = upOrDownload.strip()
     if int(upOrDownload) == 1:
         numThread = input("请选择单线程或者双线程 单（1）双（2）：\n")
@@ -293,10 +325,14 @@ if __name__ == '__main__':
             b = Timer(5.0,v,numberUrl2)
             a.start()
             b.start()
-    else:
+    elif int(upOrDownload) == 2:
         numberUrl = inputListUrl()
         newDownload(numberUrl)
-
+    elif int(upOrDownload) == 3:
+        numberUrl = inputListUrl()
+        newDownload36(numberUrl)
+    else:
+        print("请输入正确的gufengdongman和36mh链接")
     # numberUrl = inputListUrl()
     # urls36 = getUrl36(numberUrl[0])
     # print(urls36)
